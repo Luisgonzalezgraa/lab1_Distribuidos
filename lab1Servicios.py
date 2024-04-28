@@ -1,6 +1,7 @@
 #Librerias
 from mpi4py import MPI
 import numpy as np
+import time
 
 # Inicializar el comunicador MPI
 comm = MPI.COMM_WORLD
@@ -61,10 +62,17 @@ def procesar_datos_paralelo(nombre_archivo):
 # Nombre del archivo de entrada
 nombre_archivo = 'datos.txt'
 
+# Medir el tiempo de ejecución
+inicio_tiempo = time.time()
+
 # Procesar los datos en paralelo
 resultados_finales = procesar_datos_paralelo(nombre_archivo)
+
+# Calcular el tiempo de ejecución
+tiempo_ejecucion = time.time() - inicio_tiempo
 
 # Imprimir los resultados finales en el proceso 0
 if rank == 0:
     for estacion, (min_temp, max_temp, promedio_temp) in resultados_finales.items():
-        print(f"Estacion: {estacion}, Temperatura minima: {min_temp}, Temperatura maxima: {max_temp}, Promedio de temperatura: {promedio_temp}")
+        print(f"Estacion: {estacion}, Temp. minima: {min_temp}, Temp. maxima: {max_temp}, Promedio: {promedio_temp}")
+    print(f"Tiempo de ejecucion: {tiempo_ejecucion} segundos")
